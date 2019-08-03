@@ -7,7 +7,10 @@ before_deploy:
   - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
   - git tag $TRAVIS_TAG
 script:
-  - hugo
+  # - hugo
+  - mkdir public
+  - touch public/test.txt
+  - echo $(date) > public/test.txt
   - ls -al public
 deploy:
   skip_cleanup: true
