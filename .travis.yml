@@ -1,0 +1,27 @@
+install:
+  - wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.52/hugo_0.52_Linux-64bit.deb
+  - sudo dpkg -i /tmp/hugo.deb
+before_deploy:
+  # - git config --global user.name "abas"
+  # - git config --global user.email "akhmadbasir5@gmail.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+script:
+  - hugo
+  - ls -al public
+deploy:
+  skip_cleanup: true
+  keep_history: true
+  github_token: $GITHUB_TOKEN
+  repo: abas/$TARGET_REPO
+  name: abas
+  email: akhmadbasir5@gmail.com
+  provider: pages
+  local_dir: public
+  on:
+    branch: master
+after_deploy:
+  - git clone https://github.com/abas/$TARGET_REPO.git check
+  - cd check
+  - git log --oneline --graph -n 20
+  
