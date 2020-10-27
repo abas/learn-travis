@@ -26,5 +26,5 @@ deploy:
 after_deploy:
   - git clone https://github.com/abas/$TARGET_REPO.git check
   - cd check
-  - git log --oneline --graph -n 20
+  - git log --oneline --graph --decorate --all -n 20
   
